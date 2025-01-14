@@ -1,76 +1,110 @@
-import axios from "axios"
-import React, { useContext, useEffect, useState } from "react"
-import CartCotext from "../CartContext"
-import { useNavigate } from "react-router-dom"
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
+import CartCotext from "../CartContext";
+import { useNavigate } from "react-router-dom";
+import FiltersSidebar from "./FiltersSidebar";
+import CartContext from "../CartContext";
 
 function ProductList() {
-  const [products, setProducts] = useState([])
-  const { cart, setCart } = useContext(CartCotext)
-  const navigate = useNavigate() // Initialize navigate
-  const [search, setSearch] = useState("")
-  const [underT, setUnderT] = useState(false)
+  const [products, setProducts] = useState([]);
+  const { cart, setCart } = useContext(CartCotext);
+  const navigate = useNavigate();
+  const [filters, setFilters] = useState({
+    search: "",
+    category: "all",
+    minPrice: 0,
+    maxPrice: 10000,
+  });
 
   useEffect(() => {
-    getProducts()
-    console.log("calling getProducts")
-  }, [search, underT])
+    getProducts();
+    console.log("calling getProducts");
+  }, [filters]);
 
   function getProducts() {
-    axios.get("https://shop17-back.onrender.com/products/").then((response) => {
-      let newProducts = response.data.filter((product) =>
-        product.name.includes(search)
-      )
-      if (underT) {
-        newProducts = newProducts.filter((product) => product.price < 1000)
+    axios.get("http://127.0.0.1:8000/products/").then((response) => {
+      let filteredProducts = response.data;
+
+      // Apply filters
+      if (filters.search) {
+        filteredProducts = filteredProducts.filter((product) =>
+          product.name.toLowerCase().includes(filters.search.toLowerCase())
+        );
       }
-      setProducts(newProducts)
-    })
+      if (filters.underThousand) {
+        filteredProducts = filteredProducts.filter(
+          (product) => product.price < 1000
+        );
+      }
+      if (filters.category !== "all") {
+        filteredProducts = filteredProducts.filter(
+          (product) => product.category === filters.category
+        );
+      }
+      filteredProducts = filteredProducts.filter(
+        (product) =>
+          product.price >= filters.minPrice && product.price <= filters.maxPrice
+      );
+
+      setProducts(filteredProducts);
+    });
   }
-  function underThousand() {
-    setUnderT(!underT)
+
+  function handleFilterChange(event) {
+    const { name, value, type, checked } = event.target;
+    setFilters((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   }
-  function addToCart(product) {
-    const existingProduct = cart.find((cartProduct) => cartProduct === product)
-    if (!existingProduct) {
-      setCart([...cart, product])
-      console.log("cart is", cart)
-      navigate("/cart")
-    }
-  }
+
+  const handleAddToCart = (product) => {
+    handleAddToCart(product);
+  };
   return (
-    <>
-      <div class="container">
-        Search:
-        <input value={search} onChange={(e) => setSearch(e.target.value)} />
-        <button onClick={underThousand}>Under 1000</button>
-        <div class="row">
-          {products.map((product, index) => (
-            <div key={index} class="col-sm-4">
-              <div class="panel panel-primary">
-                <div class="panel-heading">{product.name} !!!</div>
-                <div class="panel-body">
+    <div className="container my-4">
+      <div className="row">
+        {/* Sidebar */}
+        <div className="col-md-3">
+          <div className="filters-sidebar p-3 shadow rounded">
+            <FiltersSidebar
+              filters={filters}
+              onFilterChange={handleFilterChange}
+            />
+          </div>
+        </div>
+
+        {/* Product List */}
+        <div className="col-md-9">
+          <div className="row gy-4">
+            {products.map((product, index) => (
+              <div key={index} className="col-sm-6 col-lg-4">
+                <div className="card shadow-sm h-100">
                   <img
                     src={product.image}
-                    className="product-image img-responsive"
-                    style={{ width: "100%" }}
+                    className="card-img-top product-image"
                     alt={product.name}
                   />
+                  <div className="card-body">
+                    <h5 className="card-title">{product.name}</h5>
+                    <p className="card-text text-muted">
+                      Price: ${product.price.toFixed(2)}
+                    </p>
+                    <button
+                      className="btn btn-primary w-100"
+                      onClick={() => handleAddToCart(product)}
+                    >
+                      Add to cart
+                    </button>
+                  </div>
                 </div>
-                <div class="panel-footer">${product.price.toFixed(2)}</div>
-                <button
-                  className="fetch-button"
-                  onClick={() => addToCart(product)}
-                >
-                  Add to cart
-                </button>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
-      <br />
-    </>
-  )
+    </div>
+  );
 }
 
-export default ProductList
+export default ProductList;

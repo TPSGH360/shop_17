@@ -1,66 +1,71 @@
-import React, { useContext } from "react"
-import CartCotext from "../CartContext"
-import { Link } from "react-router-dom"
-import LoginContext from "../LoginContext"
+import React, { useContext } from "react";
+import CartContext from "../CartContext";
+import { Link } from "react-router-dom";
+import LoginContext from "../LoginContext";
 
 function Nav() {
-  const { cart, setCart } = useContext(CartCotext)
-  const { login, setLogin } = useContext(LoginContext)
+  const { cart, setCart } = useContext(CartContext);
+  const { login, setLogin } = useContext(LoginContext);
+
   function logout() {
-    setLogin(null)
-    localStorage.removeItem("token")
+    setLogin(null);
+    localStorage.removeItem("token");
   }
+
   return (
-    <nav class="navbar navbar-inverse">
-      <div class="container-fluid">
-        <div class="navbar-header">
+    <nav className="navbar navbar-inverse">
+      <div className="container-fluid">
+        <div className="navbar-header">
           <button
             type="button"
-            class="navbar-toggle"
+            className="navbar-toggle"
             data-toggle="collapse"
             data-target="#myNavbar"
           >
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+            <span className="icon-bar"></span>
+            <span className="icon-bar"></span>
+            <span className="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="http://www.google.com">
-            Logo
-          </a>
         </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-          <ul class="nav navbar-nav">
-            <li class="active">
-              <Link to="/">Home</Link>
+        <div className="collapse navbar-collapse" id="myNavbar">
+          <ul className="nav navbar-nav">
+            <li>
+              <Link to="/phones">Phones</Link>
             </li>
-            <li class="active">
+            <li>
+              <Link to="/laptops">Laptops</Link>
+            </li>
+            <li>
+              <Link to="/accessories">Accessories</Link>
+            </li>
+            <li>
               <Link to="/about">About</Link>
             </li>
           </ul>
-          <ul class="nav navbar-nav navbar-right">
+          <ul className="nav navbar-nav navbar-right">
             {login?.is_admin && (
               <li>
-                <Link to="/login">Admin</Link>
+                <Link to="/admin">Admin</Link>
               </li>
             )}
             <li>
               <Link to="/login">
-                <span class="glyphicon glyphicon-user"></span>
-                {login ? `hello ${login.username}` : "Your Account"}
+                <span className="glyphicon glyphicon-user"></span>
+                {login ? `Hello ${login.username}` : "Your Account"}
               </Link>
-              {login && <button onClick={logout}>logout</button>}
+              {login && <button onClick={logout}>Logout</button>}
             </li>
             <li>
               <Link to="/cart">
-                <span class="glyphicon glyphicon-shopping-cart"></span> Cart :{" "}
-                {cart.length}
+                <span className="glyphicon glyphicon-shopping-cart"></span>{" "}
+                Cart: {cart.length}
               </Link>
             </li>
           </ul>
         </div>
       </div>
     </nav>
-  )
+  );
 }
 
-export default Nav
+export default Nav;
