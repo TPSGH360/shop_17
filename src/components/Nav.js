@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 import CartContext from "../CartContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LoginContext from "../LoginContext";
 
 function Nav() {
   const { cart, setCart } = useContext(CartContext);
   const { login, setLogin } = useContext(LoginContext);
+  const navigate = useNavigate();
 
   function logout() {
     setLogin(null);
@@ -30,16 +31,49 @@ function Nav() {
         <div className="collapse navbar-collapse" id="myNavbar">
           <ul className="nav navbar-nav">
             <li>
-              <Link to="/phones">Phones</Link>
+              <button
+                className="btn btn-secondary"
+                onClick={() => navigate("/")}
+                style={{ marginTop: "20px", marginRight: "10px" }}
+              >
+                Home
+              </button>
             </li>
             <li>
-              <Link to="/laptops">Laptops</Link>
+              <button
+                className="btn btn-secondary"
+                onClick={() => navigate("/phones")}
+                style={{ marginTop: "20px", marginRight: "10px" }}
+              >
+                Phones
+              </button>
             </li>
             <li>
-              <Link to="/accessories">Accessories</Link>
+              <button
+                className="btn btn-secondary"
+                onClick={() => navigate("/laptops")}
+                style={{ marginTop: "20px", marginRight: "10px" }}
+              >
+                Laptops
+              </button>
             </li>
             <li>
-              <Link to="/about">About</Link>
+              <button
+                className="btn btn-secondary"
+                onClick={() => navigate("/accessories")}
+                style={{ marginTop: "20px", marginRight: "10px" }}
+              >
+                Accessories
+              </button>
+            </li>
+            <li>
+              <button
+                className="btn btn-secondary"
+                onClick={() => navigate("/about")}
+                style={{ marginTop: "20px", marginRight: "10px" }}
+              >
+                About
+              </button>
             </li>
           </ul>
           <ul className="nav navbar-nav navbar-right">

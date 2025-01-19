@@ -5,7 +5,7 @@ function Footer() {
     <footer class="container-fluid text-center">
       <p>My Store copyright</p>
       <form class="form-inline">
-        Get deals:
+        Sign up for our Catalogue:
         <input
           type="email"
           class="form-control"

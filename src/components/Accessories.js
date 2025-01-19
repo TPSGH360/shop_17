@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import FiltersSidebar from "./FiltersSidebar";
 import { Link } from "react-router-dom";
+import CartContext from "../CartContext";
 
 function Accessories() {
   const [products, setProducts] = useState([]);
+  const { addToCart } = useContext(CartContext);
   const [manufacturers, setManufacturers] = useState([]);
   const [filters, setFilters] = useState({
     search: "",
@@ -55,7 +57,6 @@ function Accessories() {
   return (
     <div className="container my-4">
       <div className="row">
-        {/* Sidebar */}
         <div className="col-md-3">
           <FiltersSidebar
             filters={filters}
@@ -63,18 +64,17 @@ function Accessories() {
             manufacturers={manufacturers}
           />
         </div>
-
-        {/* Product List */}
         <div className="col-md-9">
           <h2>Accessories</h2>
           <div className="row gy-4">
-            {filteredProducts.map((product, index) => (
-              <div key={index} className="col-sm-6 col-lg-4">
-                <Link
-                  to={`/product/${product.id}`}
-                  style={{ textDecoration: "none" }}
-                >
-                  <div className="card shadow-sm h-100">
+            {filteredProducts.map((product) => (
+              <div key={product.id} className="col-sm-6 col-lg-4">
+                <div className="card shadow-sm h-100">
+                  {/* Link wraps only the clickable product details */}
+                  <Link
+                    to={`/product/${product.id}`}
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
                     <img
                       src={product.image}
                       className="card-img-top"
@@ -83,10 +83,18 @@ function Accessories() {
                     <div className="card-body">
                       <h5 className="card-title">{product.name}</h5>
                       <p className="card-text">${product.price.toFixed(2)}</p>
-                      <button className="btn btn-primary">Add to Cart</button>
                     </div>
+                  </Link>
+                  {/* Add to Cart button is outside the Link */}
+                  <div className="card-footer">
+                    <button
+                      className="btn btn-primary w-100"
+                      onClick={() => addToCart(product)}
+                    >
+                      Add to Cart
+                    </button>
                   </div>
-                </Link>
+                </div>
               </div>
             ))}
           </div>

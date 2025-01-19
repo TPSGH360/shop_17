@@ -7,7 +7,6 @@ import Cart from "./components/Cart";
 import ProductList from "./components/ProductList";
 import CartContext from "./CartContext";
 import LoginContext from "./LoginContext";
-import Total from "./components/Total";
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import Login from "./components/Login";
 import Phones from "./components/Phones";
@@ -17,6 +16,7 @@ import PageTransition from "./components/PageTransition";
 import { jwtDecode } from "jwt-decode";
 import About from "./components/About";
 import ProductDetails from "./components/ProductDetails";
+import { CartProvider } from "./CartContext";
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -30,7 +30,7 @@ function App() {
 
   return (
     <>
-      <CartContext.Provider value={{ cart, setCart }}>
+      <CartProvider>
         <LoginContext.Provider value={{ login, setLogin }}>
           <Jumbotron />
           <Nav />
@@ -46,10 +46,9 @@ function App() {
               <Route path="/product/:id" element={<ProductDetails />} />
             </Routes>
           </PageTransition>
-          <Total />
           <Footer />
         </LoginContext.Provider>
-      </CartContext.Provider>
+      </CartProvider>
     </>
   );
 }

@@ -20,7 +20,7 @@ function Login() {
       password: password,
     };
     axios
-      .post(" http://127.0.0.1:8000/admin", loginData)
+      .post(" http://127.0.0.1:8000", loginData)
       .then((response) => {
         console.log(response.data.access);
         const token = jwtDecode(response.data.access);

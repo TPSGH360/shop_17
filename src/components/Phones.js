@@ -2,10 +2,11 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import FiltersSidebar from "./FiltersSidebar";
-import CartContext from "../CartContext"; // Import CartContext
+import CartContext from "../CartContext";
 
 function Phones() {
   const [products, setProducts] = useState([]);
+  const { addToCart } = useContext(CartContext);
   const [manufacturers, setManufacturers] = useState([]);
   const [filters, setFilters] = useState({
     search: "",
@@ -14,8 +15,6 @@ function Phones() {
     manufacturer: "",
     inStock: false,
   });
-
-  const { addToCart } = useContext(CartContext); // Use addToCart from CartContext
 
   // Fetch products and manufacturers
   useEffect(() => {
@@ -71,7 +70,6 @@ function Phones() {
             {filteredProducts.map((product) => (
               <div key={product.id} className="col-sm-6 col-lg-4">
                 <div className="card shadow-sm h-100">
-                  {/* Link wraps only the clickable product details */}
                   <Link
                     to={`/product/${product.id}`}
                     style={{ textDecoration: "none", color: "inherit" }}
@@ -86,7 +84,6 @@ function Phones() {
                       <p className="card-text">${product.price.toFixed(2)}</p>
                     </div>
                   </Link>
-                  {/* Add to Cart button is outside the Link */}
                   <div className="card-footer">
                     <button
                       className="btn btn-primary w-100"
