@@ -253,3 +253,55 @@
   transform: scale(0.95);
   transition: opacity 300ms ease-in, transform 300ms ease-in;
 }
+
+/* filtersSideBar reset button */
+.custom-reset-button {
+  background-color: #ff5733;
+  color: white;
+  border: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.custom-reset-button:hover {
+  background-color: #e74c3c;
+  color: #fdfdfd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.custom-reset-button:focus,
+.custom-reset-button:active {
+  outline: none;
+  background-color: #c0392b;
+  color: white;
+}
+
+/* about.js */
+
+.about-section h1 {
+  font-family: "Poppins", sans-serif;
+  font-size: 2.5rem;
+  color: #0d6efd;
+}
+
+.about-section p {
+  line-height: 1.8;
+  font-size: 1.1rem;
+}
+
+.about-section h2 {
+  margin-top: 1.5rem;
+  font-size: 1.8rem;
+  color: #6c757d;
+}
+
+.about-section ul {
+  padding-left: 1.5rem;
+  font-size: 1.1rem;
+}
+
+.about-img {
+  width: 300px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

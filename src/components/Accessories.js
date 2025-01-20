@@ -54,6 +54,17 @@ function Accessories() {
     }));
   };
 
+  // Reset filters to defaults
+  const resetFilters = () => {
+    setFilters({
+      search: "",
+      minPrice: 0,
+      maxPrice: 10000,
+      manufacturer: "",
+      inStock: false,
+    });
+  };
+
   return (
     <div className="container my-4">
       <div className="row">
@@ -62,6 +73,7 @@ function Accessories() {
             filters={filters}
             onFilterChange={handleFilterChange}
             manufacturers={manufacturers}
+            onReset={resetFilters}
           />
         </div>
         <div className="col-md-9">

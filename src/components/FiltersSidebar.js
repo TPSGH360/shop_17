@@ -1,6 +1,6 @@
 import React from "react";
 
-function FiltersSidebar({ filters, onFilterChange, manufacturers }) {
+function FiltersSidebar({ filters, onFilterChange, manufacturers, onReset }) {
   return (
     <div className="sidebar">
       <h3>Filters</h3>
@@ -72,6 +72,13 @@ function FiltersSidebar({ filters, onFilterChange, manufacturers }) {
           />
           In Stock
         </label>
+      </div>
+
+      {/* Reset Filters Button */}
+      <div className="filter-group mt-3">
+        <button className="btn w-100 custom-reset-button" onClick={onReset}>
+          Reset Filters
+        </button>
       </div>
     </div>
   );
